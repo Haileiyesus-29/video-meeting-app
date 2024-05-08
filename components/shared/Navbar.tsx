@@ -1,8 +1,12 @@
-import Link from 'next/link'
+'use client'
+
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { LogOut } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 function Navbar() {
+   const router = useRouter()
+
    return (
       <header className='col-span-full bg-white p-2 rounded-lg basis-60'>
          <nav className='flex justify-between gap-2 px-4'>
@@ -14,13 +18,13 @@ function Navbar() {
                <h4 className='scroll-m-20 text-xl tracking-tight'>John Snow</h4>
             </div>
 
-            <Link
-               href='/logout'
-               className='flex items-center gap-2 rounded-md hover_anim'
+            <div
+               className='flex items-center gap-2 rounded-md cursor-pointer hover_anim'
+               onClick={() => router.push('/login')}
             >
                Logout
                <LogOut />
-            </Link>
+            </div>
          </nav>
       </header>
    )

@@ -19,7 +19,7 @@ export default function RootLayout({
       <html lang='en'>
          <body
             className={cn(
-               'container bg-gradient-to-br to-blue-500/20 from-red-300/20 ',
+               'container h-svh bg-gradient-to-br to-blue-500/20 from-red-300/20 ',
                inter.className
             )}
          >

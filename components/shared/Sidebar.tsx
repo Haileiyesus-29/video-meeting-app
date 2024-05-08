@@ -1,4 +1,11 @@
-import { HomeIcon } from 'lucide-react'
+import {
+   BookCheck,
+   Group,
+   History,
+   HomeIcon,
+   Settings2,
+   UserRound,
+} from 'lucide-react'
 import Link from 'next/link'
 
 function Sidebar() {
@@ -7,45 +14,46 @@ function Sidebar() {
          <ul className='flex flex-col gap-2'>
             <Link
                href='/'
-               className='flex gap-2 hover:bg-gray-200/70 px-4 py-2 rounded-md'
+               className='flex gap-2 hover:bg-gray-200/70 px-4 py-2 rounded-md text-zinc-700 hover_anim'
             >
                <HomeIcon />
                Home
             </Link>
             <Link
-               href='/'
-               className='flex gap-2 hover:bg-gray-200/70 px-4 py-2 rounded-md'
+               href='/upcoming'
+               className='flex gap-2 hover:bg-gray-200/70 px-4 py-2 rounded-md text-zinc-700 hover_anim'
             >
-               <HomeIcon />
+               <BookCheck />
                Upcoming
             </Link>
             <Link
-               href='/'
-               className='flex gap-2 hover:bg-gray-200/70 px-4 py-2 rounded-md'
+               href='/groups'
+               className='flex gap-2 hover:bg-gray-200/70 px-4 py-2 rounded-md text-zinc-700 hover_anim'
             >
-               <HomeIcon />
-               History
-            </Link>
-            <Link
-               href='/'
-               className='flex gap-2 hover:bg-gray-200/70 px-4 py-2 rounded-md'
-            >
-               <HomeIcon />
+               <Group />
                Groups
             </Link>
             <Link
-               href='/'
-               className='flex gap-2 hover:bg-gray-200/70 px-4 py-2 rounded-md'
+               href='/history'
+               className='flex gap-2 hover:bg-gray-200/70 px-4 py-2 rounded-md text-zinc-700 hover_anim'
             >
-               <HomeIcon />
+               <History />
+               History
+            </Link>
+
+            <Link
+               href='/profile'
+               className='flex gap-2 hover:bg-gray-200/70 px-4 py-2 rounded-md text-zinc-700 hover_anim'
+            >
+               <UserRound />
                Profile
             </Link>
             <Link
-               href='/'
-               className='flex gap-2 hover:bg-gray-200/70 px-4 py-2 rounded-md'
+               href='/setting'
+               className='flex gap-2 hover:bg-gray-200/70 px-4 py-2 rounded-md text-zinc-700 hover_anim'
             >
-               <HomeIcon />
-               Settings
+               <Settings2 />
+               Setting
             </Link>
          </ul>
       </aside>

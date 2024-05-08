@@ -4,10 +4,9 @@ function AuthLayout({
    children: React.ReactNode
 }>) {
    return (
-      <div>
-         <div>Login | Signup</div>
-         <div>{children}</div>
-      </div>
+      <main className='flex justify-center items-center h-full'>
+         {children}
+      </main>
    )
 }
 
