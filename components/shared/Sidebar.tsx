@@ -48,13 +48,6 @@ function Sidebar() {
                <UserRound />
                Profile
             </Link>
-            <Link
-               href='/setting'
-               className='flex gap-2 hover:bg-gray-200/70 px-4 py-2 rounded-md text-zinc-700 hover_anim'
-            >
-               <Settings2 />
-               Setting
-            </Link>
          </ul>
       </aside>
    )
