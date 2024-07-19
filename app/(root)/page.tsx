@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button'
+import '@/db/db'
 
 export default function Home() {
    return (

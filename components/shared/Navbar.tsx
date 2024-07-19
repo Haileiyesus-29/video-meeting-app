@@ -1,7 +1,5 @@
 'use client'
-import { SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { LogOut } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
 function Navbar() {
@@ -20,14 +18,7 @@ function Navbar() {
                </h4>
             </div>
 
-            <div className='flex items-center gap-2 rounded-md cursor-pointer'>
-               <SignedOut>
-                  <SignInButton />
-               </SignedOut>
-               <SignedIn>
-                  <UserButton afterSignOutUrl='/login' />
-               </SignedIn>
-            </div>
+            <div className='flex items-center gap-2 rounded-md cursor-pointer'></div>
          </nav>
       </header>
    )
