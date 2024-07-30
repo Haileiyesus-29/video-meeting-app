@@ -1,5 +1,5 @@
 import { sql } from 'drizzle-orm'
-import { text, sqliteTable } from 'drizzle-orm/sqlite-core'
+import { text, sqliteTable, integer } from 'drizzle-orm/sqlite-core'
 
 const generateUUID = () => crypto.randomUUID()
 
@@ -28,6 +28,7 @@ export const groupMembers = sqliteTable('groupMembers', {
    userId: text('userId')
       .notNull()
       .references(() => users.id, { onDelete: 'cascade' }),
+   created_at: text('created_at').default(sql`(CURRENT_TIMESTAMP)`),
 })
 
 export const meetings = sqliteTable('meetings', {
@@ -37,20 +38,22 @@ export const meetings = sqliteTable('meetings', {
       .references(() => groups.id, { onDelete: 'cascade' }),
    title: text('title').notNull(),
    description: text('description'),
-   admin: text('admin')
-      .notNull()
-      .references(() => users.id, { onDelete: 'cascade' }),
-   date: text('date').notNull(),
-   time: text('time').notNull(),
+   scheduled_at: text('scheduled_at').notNull(),
+   start: text('start'),
+   end: text('end'),
+   status: text('status', {
+      enum: ['pending', 'started', 'ended', 'canceled'],
+   }).default('pending'),
    created_at: text('created_at').default(sql`(CURRENT_TIMESTAMP)`),
-   updated_at: text('updated_at').default(sql`(CURRENT_TIMESTAMP)`),
 })
 
-export const meetingAttendees = sqliteTable('meetingAttendees', {
+export const meetingParticipants = sqliteTable('meetingParticipants', {
    meetingId: text('meetingId')
       .notNull()
       .references(() => meetings.id, { onDelete: 'cascade' }),
    userId: text('userId')
       .notNull()
       .references(() => users.id, { onDelete: 'cascade' }),
+   duration: integer('duration').default(0),
+   created_at: text('created_at').default(sql`(CURRENT_TIMESTAMP)`),
 })

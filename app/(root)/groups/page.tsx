@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
 
-function Groups() {
+async function Groups() {
    return (
       <>
          <section className='p-4'>

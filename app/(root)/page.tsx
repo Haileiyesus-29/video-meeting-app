@@ -1,7 +1,6 @@
 import { Button } from '@/components/ui/button'
-import '@/db/db'
 
-export default function Home() {
+export default async function Home() {
    return (
       <>
          <section className='flex justify-between gap-4 p-4'>
@@ -61,7 +60,7 @@ export default function Home() {
 // TODO: Add a hero section
 {
    /* <div className='bg-gradient-to-r from-red-500/10 to-blue-500/10 p-8 rounded-lg'>
-         <h1 className='text-6xl text-center text-gray-800/90 leading-relaxed'>
+         <h1 className='text-6xl text-center text-gra y-800/90 leading-relaxed'>
             The ultimate video call solution for all your needs 🚀
          </h1>
       </div> */

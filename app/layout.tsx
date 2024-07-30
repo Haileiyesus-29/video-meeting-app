@@ -17,17 +17,15 @@ export default function RootLayout({
    children: React.ReactNode
 }>) {
    return (
-      <AuthProvider>
-         <html lang='en'>
-            <body
-               className={cn(
-                  'container h-svh bg-gradient-to-br to-blue-500/20 from-red-300/20 ',
-                  inter.className
-               )}
-            >
-               {children}
-            </body>
-         </html>
-      </AuthProvider>
+      <html lang='en'>
+         <body
+            className={cn(
+               'container h-svh bg-gradient-to-br to-blue-500/20 from-red-300/20 ',
+               inter.className
+            )}
+         >
+            <AuthProvider>{children}</AuthProvider>
+         </body>
+      </html>
    )
 }

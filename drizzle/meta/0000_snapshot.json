@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "fd62bdf8-7497-4a7f-bedc-b5223f6abfda",
+  "id": "8ad07a8e-51d1-49c0-9753-f31a90b3793e",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "groupMembers": {
@@ -20,6 +20,14 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "(CURRENT_TIMESTAMP)"
         }
       },
       "indexes": {},
@@ -63,7 +71,7 @@
           "primaryKey": true,
           "notNull": true,
           "autoincrement": false,
-          "default": "'2e3e8b4e-6ab0-45ab-8e8f-d641f05c418d'"
+          "default": "'3f3616af-4a0b-44eb-8b0c-1b2e746529be'"
         },
         "name": {
           "name": "name",
@@ -114,8 +122,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "meetingAttendees": {
-      "name": "meetingAttendees",
+    "meetingParticipants": {
+      "name": "meetingParticipants",
       "columns": {
         "meetingId": {
           "name": "meetingId",
@@ -130,13 +138,29 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
+        },
+        "duration": {
+          "name": "duration",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": 0
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "(CURRENT_TIMESTAMP)"
         }
       },
       "indexes": {},
       "foreignKeys": {
-        "meetingAttendees_meetingId_meetings_id_fk": {
-          "name": "meetingAttendees_meetingId_meetings_id_fk",
-          "tableFrom": "meetingAttendees",
+        "meetingParticipants_meetingId_meetings_id_fk": {
+          "name": "meetingParticipants_meetingId_meetings_id_fk",
+          "tableFrom": "meetingParticipants",
           "tableTo": "meetings",
           "columnsFrom": [
             "meetingId"
@@ -147,9 +171,9 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "meetingAttendees_userId_users_id_fk": {
-          "name": "meetingAttendees_userId_users_id_fk",
-          "tableFrom": "meetingAttendees",
+        "meetingParticipants_userId_users_id_fk": {
+          "name": "meetingParticipants_userId_users_id_fk",
+          "tableFrom": "meetingParticipants",
           "tableTo": "users",
           "columnsFrom": [
             "userId"
@@ -173,7 +197,7 @@
           "primaryKey": true,
           "notNull": true,
           "autoincrement": false,
-          "default": "'881769e1-59b4-4c72-8e2b-7f73b1484130'"
+          "default": "'0949ed36-9cb6-4821-b8b8-c4cd76a29976'"
         },
         "groupId": {
           "name": "groupId",
@@ -196,37 +220,37 @@
           "notNull": false,
           "autoincrement": false
         },
-        "admin": {
-          "name": "admin",
+        "scheduled_at": {
+          "name": "scheduled_at",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "date": {
-          "name": "date",
+        "start": {
+          "name": "start",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "autoincrement": false
         },
-        "time": {
-          "name": "time",
+        "end": {
+          "name": "end",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "autoincrement": false
         },
-        "created_at": {
-          "name": "created_at",
+        "status": {
+          "name": "status",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false,
-          "default": "(CURRENT_TIMESTAMP)"
+          "default": "'pending'"
         },
-        "updated_at": {
-          "name": "updated_at",
+        "created_at": {
+          "name": "created_at",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
@@ -248,19 +272,6 @@
           ],
           "onDelete": "cascade",
           "onUpdate": "no action"
-        },
-        "meetings_admin_users_id_fk": {
-          "name": "meetings_admin_users_id_fk",
-          "tableFrom": "meetings",
-          "tableTo": "users",
-          "columnsFrom": [
-            "admin"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -275,7 +286,7 @@
           "primaryKey": true,
           "notNull": true,
           "autoincrement": false,
-          "default": "'19ee9afa-61c1-4a32-a06a-81187546d1ec'"
+          "default": "'1a150061-409f-443f-a20c-06647260e360'"
         },
         "name": {
           "name": "name",

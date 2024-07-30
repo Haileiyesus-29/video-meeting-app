@@ -1,12 +1,13 @@
 CREATE TABLE `groupMembers` (
 	`groupId` text NOT NULL,
 	`userId` text NOT NULL,
+	`created_at` text DEFAULT (CURRENT_TIMESTAMP),
 	FOREIGN KEY (`groupId`) REFERENCES `groups`(`id`) ON UPDATE no action ON DELETE cascade,
 	FOREIGN KEY (`userId`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
 CREATE TABLE `groups` (
-	`id` text PRIMARY KEY DEFAULT '2e3e8b4e-6ab0-45ab-8e8f-d641f05c418d' NOT NULL,
+	`id` text PRIMARY KEY DEFAULT '3f3616af-4a0b-44eb-8b0c-1b2e746529be' NOT NULL,
 	`name` text NOT NULL,
 	`description` text,
 	`adminId` text NOT NULL,
@@ -14,29 +15,30 @@ CREATE TABLE `groups` (
 	FOREIGN KEY (`adminId`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
-CREATE TABLE `meetingAttendees` (
+CREATE TABLE `meetingParticipants` (
 	`meetingId` text NOT NULL,
 	`userId` text NOT NULL,
+	`duration` integer DEFAULT 0,
+	`created_at` text DEFAULT (CURRENT_TIMESTAMP),
 	FOREIGN KEY (`meetingId`) REFERENCES `meetings`(`id`) ON UPDATE no action ON DELETE cascade,
 	FOREIGN KEY (`userId`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
 CREATE TABLE `meetings` (
-	`id` text PRIMARY KEY DEFAULT '881769e1-59b4-4c72-8e2b-7f73b1484130' NOT NULL,
+	`id` text PRIMARY KEY DEFAULT '0949ed36-9cb6-4821-b8b8-c4cd76a29976' NOT NULL,
 	`groupId` text NOT NULL,
 	`title` text NOT NULL,
 	`description` text,
-	`admin` text NOT NULL,
-	`date` text NOT NULL,
-	`time` text NOT NULL,
+	`scheduled_at` text NOT NULL,
+	`start` text,
+	`end` text,
+	`status` text DEFAULT 'pending',
 	`created_at` text DEFAULT (CURRENT_TIMESTAMP),
-	`updated_at` text DEFAULT (CURRENT_TIMESTAMP),
-	FOREIGN KEY (`groupId`) REFERENCES `groups`(`id`) ON UPDATE no action ON DELETE cascade,
-	FOREIGN KEY (`admin`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE cascade
+	FOREIGN KEY (`groupId`) REFERENCES `groups`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
 CREATE TABLE `users` (
-	`id` text PRIMARY KEY DEFAULT '19ee9afa-61c1-4a32-a06a-81187546d1ec' NOT NULL,
+	`id` text PRIMARY KEY DEFAULT '1a150061-409f-443f-a20c-06647260e360' NOT NULL,
 	`name` text NOT NULL,
 	`email` text NOT NULL,
 	`password` text NOT NULL,
