@@ -1,5 +1,6 @@
 'use client'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
 function Navbar() {
@@ -18,7 +19,12 @@ function Navbar() {
                </h4>
             </div>
 
-            <div className='flex items-center gap-2 rounded-md cursor-pointer'></div>
+            <Link
+               href='/login'
+               className='flex items-center gap-2 rounded-md cursor-pointer'
+            >
+               Login
+            </Link>
          </nav>
       </header>
    )

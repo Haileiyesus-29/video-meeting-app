@@ -8,7 +8,9 @@ export const users = sqliteTable('users', {
    name: text('name').notNull(),
    email: text('email').notNull().unique(),
    password: text('password').notNull(),
-   created_at: text('created_at').default(sql`(CURRENT_TIMESTAMP)`),
+   created_at: text('created_at')
+      .notNull()
+      .default(sql`(CURRENT_TIMESTAMP)`),
 })
 
 export const groups = sqliteTable('groups', {
@@ -18,7 +20,9 @@ export const groups = sqliteTable('groups', {
    adminId: text('adminId')
       .notNull()
       .references(() => users.id, { onDelete: 'cascade' }),
-   created_at: text('created_at').default(sql`(CURRENT_TIMESTAMP)`),
+   created_at: text('created_at')
+      .notNull()
+      .default(sql`(CURRENT_TIMESTAMP)`),
 })
 
 export const groupMembers = sqliteTable('groupMembers', {
@@ -28,7 +32,9 @@ export const groupMembers = sqliteTable('groupMembers', {
    userId: text('userId')
       .notNull()
       .references(() => users.id, { onDelete: 'cascade' }),
-   created_at: text('created_at').default(sql`(CURRENT_TIMESTAMP)`),
+   created_at: text('created_at')
+      .notNull()
+      .default(sql`(CURRENT_TIMESTAMP)`),
 })
 
 export const meetings = sqliteTable('meetings', {
@@ -44,7 +50,9 @@ export const meetings = sqliteTable('meetings', {
    status: text('status', {
       enum: ['pending', 'started', 'ended', 'canceled'],
    }).default('pending'),
-   created_at: text('created_at').default(sql`(CURRENT_TIMESTAMP)`),
+   created_at: text('created_at')
+      .notNull()
+      .default(sql`(CURRENT_TIMESTAMP)`),
 })
 
 export const meetingParticipants = sqliteTable('meetingParticipants', {
@@ -55,5 +63,7 @@ export const meetingParticipants = sqliteTable('meetingParticipants', {
       .notNull()
       .references(() => users.id, { onDelete: 'cascade' }),
    duration: integer('duration').default(0),
-   created_at: text('created_at').default(sql`(CURRENT_TIMESTAMP)`),
+   created_at: text('created_at')
+      .notNull()
+      .default(sql`(CURRENT_TIMESTAMP)`),
 })
