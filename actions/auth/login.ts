@@ -2,10 +2,9 @@
 import 'server-only'
 import { db, schema } from '@/db'
 import { and, eq } from 'drizzle-orm'
-import { NextURL } from 'next/dist/server/web/next-url'
 import { redirect } from 'next/navigation'
-import { NextResponse } from 'next/server'
 import { z } from 'zod'
+import { setSession } from '@/lib/session'
 
 const loginSchema = z.object({
    email: z.string().email(),
@@ -24,8 +23,6 @@ export async function login<T, U extends FormData>(_: T, formData: U) {
       }
    }
 
-   await new Promise(resolve => setTimeout(resolve, 500))
-
    const user = await db.query.users.findFirst({
       where: eq(schema.users.email, validateFields.data.email),
    })
@@ -35,5 +32,6 @@ export async function login<T, U extends FormData>(_: T, formData: U) {
          errors: 'Invalid email or password',
       }
 
+   await setSession(user.id)
    return redirect('/')
 }

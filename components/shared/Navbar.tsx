@@ -1,10 +1,10 @@
-'use client'
+import { logout } from '@/actions/auth/logout'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { Button } from '../ui/button'
+import { getUser } from '@/data/getUser'
 
-function Navbar() {
-   const router = useRouter()
+async function Navbar() {
+   const user = await getUser()
 
    return (
       <header className='col-span-full bg-white p-2 rounded-lg basis-60'>
@@ -12,19 +12,24 @@ function Navbar() {
             <div className='flex items-center gap-2'>
                <Avatar>
                   <AvatarImage src='' />
-                  <AvatarFallback>LG</AvatarFallback>
+                  <AvatarFallback>
+                     {user.name.slice(0, 2).toUpperCase()}
+                  </AvatarFallback>
                </Avatar>
                <h4 className='scroll-m-20 text-xl tracking-tight'>
-                  Video-Meet-App
+                  {user.name}
                </h4>
             </div>
 
-            <Link
-               href='/login'
-               className='flex items-center gap-2 rounded-md cursor-pointer'
-            >
-               Login
-            </Link>
+            <form action={logout}>
+               <Button
+                  type='submit'
+                  variant='outline'
+                  className='flex items-center gap-2 rounded-md cursor-pointer'
+               >
+                  Logout
+               </Button>
+            </form>
          </nav>
       </header>
    )

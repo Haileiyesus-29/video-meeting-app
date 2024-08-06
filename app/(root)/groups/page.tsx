@@ -1,8 +1,12 @@
+import CreateGroup from '@/components/shared/CreateGroup'
 import { Button } from '@/components/ui/button'
 
 async function Groups() {
    return (
       <>
+         <section className='right-10 bottom-10 z-10 absolute'>
+            <CreateGroup />
+         </section>
          <section className='p-4'>
             <div className='flex items-center gap-4 mx-auto max-w-md'>
                <input

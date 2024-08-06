@@ -1,9 +1,9 @@
 'use server'
 
+import 'server-only'
 import { db, schema } from '@/db'
 import { eq } from 'drizzle-orm'
 import { redirect } from 'next/navigation'
-import { NextResponse } from 'next/server'
 import { z } from 'zod'
 
 const registerSchema = z
@@ -50,34 +50,27 @@ export async function register<T, U extends FormData>(_: T, formData: U) {
          errors: validateFields.error.flatten().fieldErrors,
       }
    }
-   try {
-      const existingUser = await db.query.users.findFirst({
-         where: eq(schema.users.email, validateFields.data.email),
-      })
 
-      if (existingUser)
-         return {
-            message: 'Email address already in use',
-            errors: {
-               email: ['Email address already in use'],
-            },
-         }
+   const existingUser = await db.query.users.findFirst({
+      where: eq(schema.users.email, validateFields.data.email),
+   })
 
-      const user = await db
-         .insert(schema.users)
-         .values({
-            name: validateFields.data.name,
-            email: validateFields.data.email,
-            password: validateFields.data.password,
-         })
-         .returning()
-
-      redirect('/')
-   } catch (error) {
-      console.trace(error)
+   if (existingUser)
       return {
-         message: 'Registration failed',
-         errors: null,
+         message: 'Email address already in use',
+         errors: {
+            email: ['Email address already in use'],
+         },
       }
-   }
+
+   const user = await db
+      .insert(schema.users)
+      .values({
+         name: validateFields.data.name,
+         email: validateFields.data.email,
+         password: validateFields.data.password,
+      })
+      .returning()
+
+   return redirect('/')
 }

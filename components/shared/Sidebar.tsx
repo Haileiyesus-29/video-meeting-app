@@ -18,9 +18,9 @@ function Sidebar() {
                <HomeIcon />
                Home
             </Link>
-            <Link href='/upcoming' className={setClassNames('/upcoming')}>
+            <Link href='/meetings' className={setClassNames('/meetings')}>
                <BookCheck />
-               Upcoming
+               Meetings
             </Link>
             <Link href='/groups' className={setClassNames('/groups')}>
                <Group />

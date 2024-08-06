@@ -56,12 +56,3 @@ export default async function Home() {
       </>
    )
 }
-
-// TODO: Add a hero section
-{
-   /* <div className='bg-gradient-to-r from-red-500/10 to-blue-500/10 p-8 rounded-lg'>
-         <h1 className='text-6xl text-center text-gra y-800/90 leading-relaxed'>
-            The ultimate video call solution for all your needs 🚀
-         </h1>
-      </div> */
-}
