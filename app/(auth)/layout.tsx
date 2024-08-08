@@ -5,7 +5,7 @@ function AuthLayout({
 }>) {
    return (
       <main className='py-10 h-full min-h-svh'>
-         <section className='flex justify-center items-center bg-white p-10 rounded-lg h-full'>
+         <section className='flex justify-center items-center bg-white p-10 rounded-lg h-full container'>
             {children}
          </section>
       </main>

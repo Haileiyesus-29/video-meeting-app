@@ -1,8 +1,30 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Button } from '../ui/button'
-import { Plus, X } from 'lucide-react'
+import { X } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+
+const mochApi = async () => {
+   await new Promise(r => setTimeout(r, 100))
+   return [
+      {
+         name: 'John Doe',
+         id: '1',
+         email: 'john@email.com',
+      },
+      {
+         name: 'Jane Doe',
+         id: '2',
+         email: 'jan3@email.com',
+      },
+   ]
+}
+
+type User = {
+   name: string
+   id: string
+   email: string
+}
 
 function Members({
    members,
@@ -11,30 +33,29 @@ function Members({
    members: string[]
    setMembers: React.Dispatch<React.SetStateAction<string[]>>
 }) {
-   const addMemberInput = useRef<HTMLInputElement>(null)
-   const [memberError, setMemberError] = useState<string | null>(null)
+   const [inputValue, setInputValue] = useState<string>('')
+   const [searchResults, setSearchResults] = useState<User[]>([])
+
+   useEffect(() => {
+      if (!inputValue) {
+         setSearchResults([])
+         return
+      }
+
+      const timer = setTimeout(async () => {
+         setSearchResults(await mochApi())
+      }, 500)
+
+      return () => clearTimeout(timer)
+   }, [inputValue])
 
    const onRemoveMember = (email: string) => {
       setMembers(prev => prev.filter(m => m !== email))
    }
 
-   const onAddMember = () => {
-      const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/
-      let value = addMemberInput.current?.value.trim()
-      if (!value || !regex.test(value)) {
-         setMemberError('Invalid email address')
-         addMemberInput.current?.focus()
-         return
-      } else {
-         setMemberError(null)
-      }
-
-      setMembers(prev =>
-         prev
-            .filter(m => m.toLowerCase() !== value?.trim().toLowerCase())
-            .concat(value)
-      )
-      if (addMemberInput.current) addMemberInput.current.value = ''
+   const onAddMember = (user: User) => {
+      setMembers(prev => prev.filter(p => p !== user.email).concat(user.email))
+      setInputValue('')
    }
 
    return (
@@ -61,25 +82,32 @@ function Members({
                ))}
             </div>
 
-            <div className='flex'>
+            <div className='relative'>
                <Input
-                  ref={addMemberInput}
+                  onChange={e => setInputValue(e.target.value)}
+                  value={inputValue}
                   id='members'
                   name='members'
                   placeholder='Add members'
-                  className='rounded-r-none grow'
                />
-               <Button
-                  onClick={onAddMember}
-                  type='button'
-                  className='rounded-l-none w-full basis-16 shrink'
-               >
-                  <Plus size={20} />
-               </Button>
+
+               {!!searchResults.length && (
+                  <div className='top-full left-0 absolute flex flex-col gap-1 bg-white p-2 border rounded-lg w-full max-h-52 overflow-y-auto'>
+                     {searchResults.map(user => (
+                        <div
+                           key={user.id}
+                           onClick={() => onAddMember(user)}
+                           className='bg-gray-300 hover:bg-gray-200 px-2 py-1 rounded-md transition cursor-pointer'
+                        >
+                           <h4 className='leading-none'>{user.name}</h4>
+                           <p className='text-gray-800/80 text-sm'>
+                              {user.email}
+                           </p>
+                        </div>
+                     ))}
+                  </div>
+               )}
             </div>
-            {memberError && (
-               <span className='text-red-600 text-sm'>{memberError}</span>
-            )}
          </div>
       </div>
    )

@@ -1,8 +1,6 @@
 'use server'
-
+import { createUser, getUserByEmail } from '@/db'
 import 'server-only'
-import { db, schema } from '@/db'
-import { eq } from 'drizzle-orm'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
 
@@ -51,11 +49,7 @@ export async function register<T, U extends FormData>(_: T, formData: U) {
       }
    }
 
-   const existingUser = await db.query.users.findFirst({
-      where: eq(schema.users.email, validateFields.data.email),
-   })
-
-   if (existingUser)
+   if (await getUserByEmail(validateFields.data.email))
       return {
          message: 'Email address already in use',
          errors: {
@@ -63,14 +57,11 @@ export async function register<T, U extends FormData>(_: T, formData: U) {
          },
       }
 
-   const user = await db
-      .insert(schema.users)
-      .values({
-         name: validateFields.data.name,
-         email: validateFields.data.email,
-         password: validateFields.data.password,
-      })
-      .returning()
+   await createUser({
+      name: validateFields.data.name,
+      email: validateFields.data.email,
+      password: validateFields.data.password,
+   })
 
    return redirect('/')
 }

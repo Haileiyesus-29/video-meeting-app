@@ -1,10 +1,12 @@
-import { Config, defineConfig } from 'drizzle-kit'
+import '@/db/envConfig'
+import { defineConfig } from 'drizzle-kit'
 
 export default defineConfig({
-   dialect: 'sqlite',
-   out: 'drizzle',
    schema: './db/schema.ts',
+   dialect: 'postgresql',
    dbCredentials: {
-      url: 'sqlite.db',
+      url: process.env.POSTGRES_URL!,
+      user: process.env.POSTGRES_USER!,
+      password: process.env.POSTGRES_PASSWORD!,
    },
-}) satisfies Config
+})

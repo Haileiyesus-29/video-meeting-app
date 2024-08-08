@@ -1,10 +1,9 @@
 'use server'
 import 'server-only'
-import { db, schema } from '@/db'
-import { and, eq } from 'drizzle-orm'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
 import { setSession } from '@/lib/session'
+import { getUserByEmail } from '@/db'
 
 const loginSchema = z.object({
    email: z.string().email(),
@@ -23,9 +22,8 @@ export async function login<T, U extends FormData>(_: T, formData: U) {
       }
    }
 
-   const user = await db.query.users.findFirst({
-      where: eq(schema.users.email, validateFields.data.email),
-   })
+   const user = await getUserByEmail(validateFields.data.email)
+
    if (!user || user.password !== validateFields.data.password)
       return {
          message: 'Login not successfull',

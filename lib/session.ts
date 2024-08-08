@@ -3,7 +3,7 @@ import 'server-only'
 import { jwtVerify, JWTVerifyResult, SignJWT } from 'jose'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { getUserById } from '@/data/getUser'
+import { getUserById } from '@/db'
 
 const ACCESS_KEY = new TextEncoder().encode(process.env.JWT_ACCESS_SECRET)
 
