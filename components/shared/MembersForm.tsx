@@ -26,7 +26,7 @@ type User = {
    email: string
 }
 
-function Members({
+function Invitees({
    members,
    setMembers,
 }: {
@@ -49,11 +49,11 @@ function Members({
       return () => clearTimeout(timer)
    }, [inputValue])
 
-   const onRemoveMember = (email: string) => {
+   const onRemoveInvitee = (email: string) => {
       setMembers(prev => prev.filter(m => m !== email))
    }
 
-   const onAddMember = (user: User) => {
+   const onAddInvitee = (user: User) => {
       setMembers(prev => prev.filter(p => p !== user.email).concat(user.email))
       setInputValue('')
    }
@@ -61,7 +61,7 @@ function Members({
    return (
       <div className='items-center gap-4 grid grid-cols-4'>
          <Label htmlFor='members' className='text-right'>
-            Members
+            Invitees
          </Label>
          <div className='flex flex-col gap-2 col-span-3'>
             <div className='flex flex-wrap gap-2'>
@@ -73,7 +73,7 @@ function Members({
                      <span>{m}</span>
                      <Button
                         type='button'
-                        onClick={() => onRemoveMember(m)}
+                        onClick={() => onRemoveInvitee(m)}
                         className='bg-gray-600 p-1 rounded-full w-6 h-6 text-white'
                      >
                         <X size={20} />
@@ -86,9 +86,9 @@ function Members({
                <Input
                   onChange={e => setInputValue(e.target.value)}
                   value={inputValue}
-                  id='members'
-                  name='members'
-                  placeholder='Add members'
+                  id='invitees'
+                  name='invitees'
+                  placeholder='Add invitees'
                />
 
                {!!searchResults.length && (
@@ -96,7 +96,7 @@ function Members({
                      {searchResults.map(user => (
                         <div
                            key={user.id}
-                           onClick={() => onAddMember(user)}
+                           onClick={() => onAddInvitee(user)}
                            className='bg-gray-300 hover:bg-gray-200 px-2 py-1 rounded-md transition cursor-pointer'
                         >
                            <h4 className='leading-none'>{user.name}</h4>
@@ -113,4 +113,4 @@ function Members({
    )
 }
 
-export default Members
+export default Invitees

@@ -22,10 +22,10 @@ function Sidebar() {
                <BookCheck />
                Meetings
             </Link>
-            <Link href='/groups' className={setClassNames('/groups')}>
+            {/* <Link href='/groups' className={setClassNames('/groups')}>
                <Group />
                Groups
-            </Link>
+            </Link> */}
             <Link href='/history' className={setClassNames('/history')}>
                <History />
                History

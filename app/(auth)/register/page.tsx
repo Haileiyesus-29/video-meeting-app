@@ -26,6 +26,7 @@ type stateType = {
       name?: string[] | undefined
       email?: string[] | undefined
       password?: string[] | undefined
+      form?: string[] | undefined
       confirmPassword?: string[] | undefined
    } | null
 }
@@ -44,6 +45,11 @@ export default function SignupForm() {
                <CardDescription>
                   Enter your credentials below to register for an account.
                </CardDescription>
+               {state?.errors?.form && (
+                  <span className='text-red-600 text-sm'>
+                     {state?.errors?.form[0]}
+                  </span>
+               )}
             </CardHeader>
             <CardContent className='gap-4 grid'>
                <div className='gap-2 grid'>

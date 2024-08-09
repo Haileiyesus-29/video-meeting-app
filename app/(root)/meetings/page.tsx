@@ -1,10 +1,10 @@
+import CreateSchedule from '@/components/shared/createSchedule'
 import { Button } from '@/components/ui/button'
 import {
    Table,
    TableBody,
    TableCaption,
    TableCell,
-   TableFooter,
    TableHead,
    TableHeader,
    TableRow,
@@ -43,13 +43,16 @@ const meetings = [
    },
 ]
 
-function Upcoming() {
+function Meetings() {
    return (
-      <section>
+      <section className=''>
+         <div className='right-10 bottom-10 absolute'>
+            <CreateSchedule />
+         </div>
          <div className='p-8'>
             <Table>
                <TableCaption>
-                  A list of upcoming video call schedules.
+                  A list of upcoming meeting schedules.
                </TableCaption>
                <TableHeader>
                   <TableRow>
@@ -79,4 +82,4 @@ function Upcoming() {
       </section>
    )
 }
-export default Upcoming
+export default Meetings

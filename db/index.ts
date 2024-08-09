@@ -2,7 +2,7 @@ import './envConfig'
 import { drizzle } from 'drizzle-orm/node-postgres'
 import * as schema from './schema'
 import { Client } from 'pg'
-import { eq, ilike, InferInsertModel, or } from 'drizzle-orm'
+import { eq, ilike, InferInsertModel, like, or } from 'drizzle-orm'
 
 class DBConnection {
    private static _instance: DBConnection
@@ -35,8 +35,7 @@ class DBConnection {
    }
 }
 
-const instance = DBConnection.instance
-const db = drizzle(instance, { schema })
+const db = drizzle(DBConnection.instance, { schema })
 
 type UserInput = Omit<
    InferInsertModel<typeof schema.Users>,
@@ -56,7 +55,7 @@ export function getUserById(id: string) {
 }
 
 export function getUserByEmail(email: string) {
-   return db.query.Users.findFirst({ where: eq(schema.Users.email, email) })
+   return db.query.Users.findFirst({ where: ilike(schema.Users.email, email) })
 }
 
 export function createUser(user: UserInput) {

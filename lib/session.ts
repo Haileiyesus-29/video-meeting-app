@@ -48,7 +48,6 @@ export async function setSession(userId: string) {
       sameSite: 'lax',
       expires,
    })
-   return redirect('/')
 }
 
 export async function verifySession() {

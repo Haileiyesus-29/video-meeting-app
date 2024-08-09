@@ -8,6 +8,34 @@
       "when": 1723064012389,
       "tag": "0000_mighty_pepper_potts",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1723216089669,
+      "tag": "0001_misty_captain_stacy",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1723216331989,
+      "tag": "0002_smart_fenris",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1723216343516,
+      "tag": "0003_mushy_frank_castle",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1723217154035,
+      "tag": "0004_vengeful_sage",
+      "breakpoints": true
     }
   ]
 }

@@ -1,14 +1,15 @@
 'use server'
-import { createUser, getUserByEmail } from '@/db'
 import 'server-only'
+import { createUser, getUserByEmail } from '@/db'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
+import { setSession } from '@/lib/session'
 
 const registerSchema = z
    .object({
       name: z
          .string()
-         .min(3, { message: 'Name must be at least 3 characters long' }),
+         .min(2, { message: 'Name must be at least 2 characters long' }),
       email: z.string().email({ message: 'Invalid email' }),
       password: z
          .string()
@@ -57,11 +58,22 @@ export async function register<T, U extends FormData>(_: T, formData: U) {
          },
       }
 
-   await createUser({
-      name: validateFields.data.name,
-      email: validateFields.data.email,
-      password: validateFields.data.password,
-   })
+   try {
+      let user = await createUser({
+         name: validateFields.data.name,
+         email: validateFields.data.email,
+         password: validateFields.data.password,
+      })
+      await setSession(user[0].id)
+   } catch (error) {
+      console.log(error)
+      return {
+         message: 'Register failed',
+         errors: {
+            form: ['An error occurred. Please try again later'],
+         },
+      }
+   }
 
    return redirect('/')
 }

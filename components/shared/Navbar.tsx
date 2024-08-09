@@ -1,10 +1,10 @@
 import { logout } from '@/actions/auth/logout'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '../ui/button'
-import { getUser } from '@/data/getUser'
+import { verifySession } from '@/lib/session'
 
 async function Navbar() {
-   const user = await getUser()
+   const user = await verifySession()
 
    return (
       <header className='col-span-full bg-white p-2 rounded-lg basis-60'>

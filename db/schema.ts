@@ -1,4 +1,3 @@
-import { randomUUID } from 'crypto'
 import {
    integer,
    pgTable,
@@ -11,7 +10,7 @@ import {
 export const Users = pgTable(
    'users',
    {
-      id: uuid('id').default(randomUUID()).primaryKey(),
+      id: uuid('id').primaryKey().notNull().defaultRandom(),
       name: text('name').notNull(),
       email: text('email').notNull().unique(),
       password: text('password').notNull(),
@@ -22,7 +21,7 @@ export const Users = pgTable(
 )
 
 export const Schedule = pgTable('schedule', {
-   id: uuid('id').default(randomUUID()).primaryKey(),
+   id: uuid('id').primaryKey().notNull().defaultRandom(),
    user_id: uuid('user_id').notNull(),
    title: text('title').notNull(),
    description: text('description'),
@@ -32,7 +31,7 @@ export const Schedule = pgTable('schedule', {
 })
 
 export const ScheduleInvitees = pgTable('schedule_invitees', {
-   id: uuid('id').default(randomUUID()).primaryKey(),
+   id: uuid('id').primaryKey().notNull().defaultRandom(),
    schedule_id: uuid('schedule_id').notNull(),
    user_id: uuid('user_id').notNull(),
    status: text('status').notNull(),
@@ -40,7 +39,7 @@ export const ScheduleInvitees = pgTable('schedule_invitees', {
 })
 
 export const CallSession = pgTable('call_session', {
-   id: uuid('id').default(randomUUID()).primaryKey(),
+   id: uuid('id').primaryKey().notNull().defaultRandom(),
    schedule_id: uuid('schedule_id').notNull(),
    user_id: uuid('user_id').notNull(),
    uptime: integer('uptime').notNull().default(0),
