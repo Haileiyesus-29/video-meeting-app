@@ -12,10 +12,12 @@ import {
    PopoverTrigger,
 } from '@/components/ui/popover'
 
-function DatePicker() {
-   const [date, setDate] = useState<Date>()
-   console.log(date)
+type DatePickerProps = {
+   setDate: (date: Date | undefined) => void
+   date: Date | undefined
+}
 
+function DatePicker({ setDate, date }: DatePickerProps) {
    return (
       <Popover modal={true}>
          <PopoverTrigger asChild>
@@ -32,6 +34,7 @@ function DatePicker() {
          </PopoverTrigger>
          <PopoverContent className='p-0 w-auto'>
             <Calendar
+               required={true}
                mode='single'
                selected={date}
                onSelect={setDate}

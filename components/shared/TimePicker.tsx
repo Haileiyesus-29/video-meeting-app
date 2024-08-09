@@ -1,8 +1,5 @@
 'use client'
 
-import { useState } from 'react'
-import { format } from 'date-fns'
-
 import {
    Select,
    SelectContent,
@@ -11,13 +8,21 @@ import {
    SelectValue,
 } from '@/components/ui/select'
 
-function TimePicker() {
-   const [hour, setHour] = useState<string>()
-   const [minute, setMinute] = useState<string>()
+type TimePickerProps = {
+   setTime: ({ minute, hour }: { minute?: string; hour?: string }) => void
+   time: {
+      hour: string
+      minute: string
+   }
+}
 
+function TimePicker({ setTime, time }: TimePickerProps) {
    return (
       <div className='flex gap-1'>
-         <Select onValueChange={setHour} value={hour}>
+         <Select
+            onValueChange={val => setTime({ hour: val })}
+            value={time.hour}
+         >
             <SelectTrigger>
                <SelectValue placeholder='HH' />
             </SelectTrigger>
@@ -31,7 +36,10 @@ function TimePicker() {
                   ))}
             </SelectContent>
          </Select>
-         <Select onValueChange={setMinute} value={minute}>
+         <Select
+            onValueChange={val => setTime({ minute: val })}
+            value={time.minute}
+         >
             <SelectTrigger>
                <SelectValue placeholder='MM' />
             </SelectTrigger>

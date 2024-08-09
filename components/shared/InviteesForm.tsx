@@ -1,11 +1,11 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from '../ui/button'
 import { X } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
 const mochApi = async () => {
-   await new Promise(r => setTimeout(r, 100))
+   await new Promise(r => setTimeout(r, 300))
    return [
       {
          name: 'John Doe',
@@ -27,11 +27,11 @@ type User = {
 }
 
 function Invitees({
-   members,
-   setMembers,
+   invitees,
+   setInvitees,
 }: {
-   members: string[]
-   setMembers: React.Dispatch<React.SetStateAction<string[]>>
+   invitees: string[]
+   setInvitees: (update: string[]) => void
 }) {
    const [inputValue, setInputValue] = useState<string>('')
    const [searchResults, setSearchResults] = useState<User[]>([])
@@ -50,11 +50,11 @@ function Invitees({
    }, [inputValue])
 
    const onRemoveInvitee = (email: string) => {
-      setMembers(prev => prev.filter(m => m !== email))
+      setInvitees(invitees.filter(m => m !== email))
    }
 
    const onAddInvitee = (user: User) => {
-      setMembers(prev => prev.filter(p => p !== user.email).concat(user.email))
+      setInvitees(invitees.filter(p => p !== user.email).concat(user.email))
       setInputValue('')
    }
 
@@ -65,7 +65,7 @@ function Invitees({
          </Label>
          <div className='flex flex-col gap-2 col-span-3'>
             <div className='flex flex-wrap gap-2'>
-               {members.map((m, i) => (
+               {invitees.map((m, i) => (
                   <div
                      key={m}
                      className='flex items-center gap-2 bg-gray-200 pl-2 rounded-full'

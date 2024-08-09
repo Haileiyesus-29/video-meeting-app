@@ -16,7 +16,7 @@ import { useFormState } from 'react-dom'
 import SubmitButton from './SubmitButton'
 import { createGroup } from '@/actions/group/create-group'
 import { useState } from 'react'
-import Members from './MembersForm'
+import Members from './InviteesForm'
 
 const initialState = {
    message: null,
