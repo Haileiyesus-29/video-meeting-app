@@ -46,9 +46,6 @@ const meetings = [
 function Meetings() {
    return (
       <section className=''>
-         <div className='right-10 bottom-10 absolute'>
-            <CreateSchedule />
-         </div>
          <div className='p-8'>
             <Table>
                <TableCaption>

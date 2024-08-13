@@ -11,7 +11,6 @@ import {
 } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { XIcon } from 'lucide-react'
 import Link from 'next/link'
 import { useFormState } from 'react-dom'
 
@@ -23,11 +22,11 @@ const initialState = {
 type stateType = {
    message: string | null
    errors: {
-      name?: string[] | undefined
-      email?: string[] | undefined
-      password?: string[] | undefined
-      form?: string[] | undefined
-      confirmPassword?: string[] | undefined
+      name?: string[]
+      email?: string[]
+      password?: string[]
+      form?: string[]
+      confirmPassword?: string[]
    } | null
 }
 

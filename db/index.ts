@@ -2,7 +2,14 @@ import './envConfig'
 import { drizzle } from 'drizzle-orm/node-postgres'
 import * as schema from './schema'
 import { Client } from 'pg'
-import { eq, ilike, InferInsertModel, like, or } from 'drizzle-orm'
+import {
+   eq,
+   ilike,
+   InferColumnsDataTypes,
+   InferInsertModel,
+   InferSelectModel,
+   or,
+} from 'drizzle-orm'
 
 class DBConnection {
    private static _instance: DBConnection
@@ -45,7 +52,7 @@ type UserInput = Omit<
 type ScheduleInput = Omit<
    InferInsertModel<typeof schema.Schedule>,
    'id' | 'created_at'
->
+> & { invitees: string[] }
 
 export function getUserById(id: string) {
    return db.query.Users.findFirst({
@@ -86,16 +93,48 @@ export function searchUserAccount(query: string) {
    })
 }
 
-export function createSchedule(schedule: ScheduleInput) {
-   return db.insert(schema.Schedule).values(schedule).returning({
-      id: schema.Schedule.id,
-      user_id: schema.Schedule.user_id,
-      title: schema.Schedule.title,
-      description: schema.Schedule.description,
-      start_time: schema.Schedule.start_time,
-      end_time: schema.Schedule.end_time,
-      created_at: schema.Schedule.created_at,
+export function createSchedule(
+   schedule: ScheduleInput
+): Promise<InferSelectModel<typeof schema.Schedule>> {
+   return new Promise(async (resolve, reject) => {
+      try {
+         const newSchdule = (
+            await db.insert(schema.Schedule).values(schedule).returning({
+               id: schema.Schedule.id,
+               user_id: schema.Schedule.user_id,
+               title: schema.Schedule.title,
+               description: schema.Schedule.description,
+               start_time: schema.Schedule.start_time,
+               end_time: schema.Schedule.end_time,
+               created_at: schema.Schedule.created_at,
+            })
+         )?.at(0)
+
+         if (!newSchdule) {
+            return reject('Failed to create schedule')
+         }
+         await db.insert(schema.ScheduleInvitees).values(
+            schedule.invitees.map(userId => ({
+               schedule_id: newSchdule.id,
+               user_id: userId,
+               status: 'pending',
+            }))
+         )
+         resolve(newSchdule)
+      } catch (error) {
+         reject(error)
+      }
    })
+}
+
+export function addInviteesToSchedule(scheduleId: string, userIds: string[]) {
+   return db.insert(schema.ScheduleInvitees).values(
+      userIds.map(userId => ({
+         schedule_id: scheduleId,
+         user_id: userId,
+         status: 'pending',
+      }))
+   )
 }
 
 export function getScheduleById(id: string) {

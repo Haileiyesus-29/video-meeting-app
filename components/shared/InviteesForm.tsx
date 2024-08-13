@@ -1,24 +1,9 @@
-import { useEffect, useState } from 'react'
-import { Button } from '../ui/button'
-import { X } from 'lucide-react'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+'use client'
 
-const mochApi = async () => {
-   await new Promise(r => setTimeout(r, 300))
-   return [
-      {
-         name: 'John Doe',
-         id: '1',
-         email: 'john@email.com',
-      },
-      {
-         name: 'Jane Doe',
-         id: '2',
-         email: 'jan3@email.com',
-      },
-   ]
-}
+import { useEffect, useState } from 'react'
+import { Input } from '../ui/input'
+import { X } from 'lucide-react'
+import { Button } from '../ui/button'
 
 type User = {
    name: string
@@ -26,14 +11,9 @@ type User = {
    email: string
 }
 
-function Invitees({
-   invitees,
-   setInvitees,
-}: {
-   invitees: string[]
-   setInvitees: (update: string[]) => void
-}) {
-   const [inputValue, setInputValue] = useState<string>('')
+function InviteesForm({ error }: { error?: string }) {
+   const [inputValue, setInputValue] = useState('')
+   const [selected, setSelected] = useState<User[]>([])
    const [searchResults, setSearchResults] = useState<User[]>([])
 
    useEffect(() => {
@@ -43,37 +23,36 @@ function Invitees({
       }
 
       const timer = setTimeout(async () => {
-         setSearchResults(await mochApi())
+         const response = await fetch(`/api/users/search?q=${inputValue}`)
+         const users: User[] = await response.json()
+         setSearchResults(users)
       }, 500)
 
       return () => clearTimeout(timer)
    }, [inputValue])
 
-   const onRemoveInvitee = (email: string) => {
-      setInvitees(invitees.filter(m => m !== email))
+   const onRemoveInvitee = (id: string) => {
+      setSelected(selected.filter(m => m.id !== id))
    }
 
    const onAddInvitee = (user: User) => {
-      setInvitees(invitees.filter(p => p !== user.email).concat(user.email))
+      setSelected(selected.filter(i => i.id !== user.id).concat(user))
       setInputValue('')
    }
 
    return (
-      <div className='items-center gap-4 grid grid-cols-4'>
-         <Label htmlFor='members' className='text-right'>
-            Invitees
-         </Label>
-         <div className='flex flex-col gap-2 col-span-3'>
-            <div className='flex flex-wrap gap-2'>
-               {invitees.map((m, i) => (
+      <div className='relative flex flex-col gap-1 col-span-3'>
+         {!!selected.length && (
+            <div className='flex flex-wrap gap-2 p-2 border rounded-md'>
+               {selected.map(u => (
                   <div
-                     key={m}
+                     key={u.id}
                      className='flex items-center gap-2 bg-gray-200 pl-2 rounded-full'
                   >
-                     <span>{m}</span>
+                     <span>{u.email}</span>
                      <Button
                         type='button'
-                        onClick={() => onRemoveInvitee(m)}
+                        onClick={() => onRemoveInvitee(u.id)}
                         className='bg-gray-600 p-1 rounded-full w-6 h-6 text-white'
                      >
                         <X size={20} />
@@ -81,36 +60,35 @@ function Invitees({
                   </div>
                ))}
             </div>
+         )}
+         <Input
+            id='invitees'
+            value={inputValue}
+            onChange={e => setInputValue(e.target.value)}
+         />
+         {error && <span className='text-red-600 text-sm'>{error}</span>}
 
-            <div className='relative'>
-               <Input
-                  onChange={e => setInputValue(e.target.value)}
-                  value={inputValue}
-                  id='invitees'
-                  name='invitees'
-                  placeholder='Add invitees'
-               />
-
-               {!!searchResults.length && (
-                  <div className='top-full left-0 absolute flex flex-col gap-1 bg-white p-2 border rounded-lg w-full max-h-52 overflow-y-auto'>
-                     {searchResults.map(user => (
-                        <div
-                           key={user.id}
-                           onClick={() => onAddInvitee(user)}
-                           className='bg-gray-300 hover:bg-gray-200 px-2 py-1 rounded-md transition cursor-pointer'
-                        >
-                           <h4 className='leading-none'>{user.name}</h4>
-                           <p className='text-gray-800/80 text-sm'>
-                              {user.email}
-                           </p>
-                        </div>
-                     ))}
+         {!!searchResults.length && (
+            <div className='top-full left-0 absolute flex flex-col gap-1 bg-white mt-2 p-2 border rounded-lg w-full max-h-52 overflow-y-auto'>
+               {searchResults.map(user => (
+                  <div
+                     key={user.id}
+                     onClick={() => onAddInvitee(user)}
+                     className='bg-gray-300 hover:bg-gray-200 px-2 py-1 rounded-md transition cursor-pointer'
+                  >
+                     <h4 className='leading-none'>{user.name}</h4>
+                     <p className='text-gray-800/80 text-sm'>{user.email}</p>
                   </div>
-               )}
+               ))}
             </div>
-         </div>
+         )}
+
+         <Input
+            name='invitees'
+            type='hidden'
+            value={JSON.stringify(selected.map(u => u.id))}
+         />
       </div>
    )
 }
-
-export default Invitees
+export default InviteesForm

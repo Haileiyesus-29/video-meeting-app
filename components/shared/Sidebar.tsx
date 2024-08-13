@@ -1,5 +1,5 @@
 'use client'
-import { BookCheck, Group, History, HomeIcon } from 'lucide-react'
+import { BookCheck, History, HomeIcon, PlusSquareIcon } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -16,16 +16,18 @@ function Sidebar() {
          <ul className='flex flex-col gap-2'>
             <Link href='/' className={setClassNames('/')}>
                <HomeIcon />
-               Home
+               HomeCreate
             </Link>
             <Link href='/meetings' className={setClassNames('/meetings')}>
                <BookCheck />
                Meetings
             </Link>
-            {/* <Link href='/groups' className={setClassNames('/groups')}>
-               <Group />
-               Groups
-            </Link> */}
+
+            <Link href='/create' className={setClassNames('/create')}>
+               <PlusSquareIcon />
+               Create
+            </Link>
+
             <Link href='/history' className={setClassNames('/history')}>
                <History />
                History
